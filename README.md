@@ -1,0 +1,1 @@
+Le dashboard de crypto affiche les données des crypto-monnaies, des données utilisateur. L'accent est mis sur l'UI avec graphes, la connexion Front et des données centralisées.
