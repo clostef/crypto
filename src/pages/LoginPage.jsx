@@ -6,25 +6,20 @@ function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Connexion avec", { email, password });
   };
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">
-      {/* Formulaire à gauche */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md text-center">
-          {/* Titre principal */}
           <h1 className="text-4xl font-bold text-yellow-500 mb-4">Crypto</h1>
 
-          {/* Logo */}
           <img
             src="https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Fcrypto-logo.png?alt=media"
             alt="Crypto logo"
             className="mx-auto mb-4 h-20"
           />
 
-          {/* Sous-titre */}
           <h2 className="text-2xl font-semibold text-white mb-4">Login</h2>
 
           <p className="text-gray-400 mb-6 text-sm">
@@ -76,7 +71,6 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Image à droite */}
       <div className="hidden md:flex w-1/2">
         <img
           src="https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Flogin.png?alt=media"
