@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // ✅ Redux
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +33,9 @@ function LoginPage() {
 
       if (response.ok) {
         const userData = await response.json();
-        localStorage.setItem("user", JSON.stringify(userData));
+
+        dispatch(setUser(userData));
+
         navigate("/home");
       } else if (response.status === 401) {
         setError("Email ou mot de passe incorrect.");
@@ -38,7 +43,6 @@ function LoginPage() {
         setError("Une erreur s'est produite. Veuillez réessayer.");
       }
     } catch (err) {
-      console.error(err);
       setError("Erreur de connexion au serveur.");
     }
   };
