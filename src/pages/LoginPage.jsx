@@ -1,11 +1,50 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/user/userSlice";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // ✅ Redux
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setError("Veuillez entrer un email valide.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3111/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+
+        dispatch(setUser(userData));
+
+        navigate("/home");
+      } else if (response.status === 401) {
+        setError("Email ou mot de passe incorrect.");
+      } else {
+        setError("Une erreur s'est produite. Veuillez réessayer.");
+      }
+    } catch (err) {
+      setError("Erreur de connexion au serveur.");
+    }
   };
 
   return (
@@ -17,7 +56,7 @@ function LoginPage() {
           <img
             src="https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Fcrypto-logo.png?alt=media"
             alt="Crypto logo"
-            className="mx-auto mb-4 h-20"
+            className="mx-auto mb-4 h-24"
           />
 
           <h2 className="text-2xl font-semibold text-white mb-4">Login</h2>
@@ -60,6 +99,10 @@ function LoginPage() {
               />
               <p className="text-sm text-gray-400 mt-1">Enter your password</p>
             </div>
+
+            {error && (
+              <p className="text-sm text-red-500 text-center">{error}</p>
+            )}
 
             <button
               type="submit"
