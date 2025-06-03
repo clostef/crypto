@@ -5,7 +5,7 @@ function ProtectedRoute({ children }) {
   const user = useSelector((state) => state.user.userData);
 
   if (!user) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return children;

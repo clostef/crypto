@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import Unauthorized from "./pages/Unauthorized";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -15,11 +16,7 @@ function App() {
         path="/home"
         element={
           <ProtectedRoute>
-            <div className="h-screen bg-gray-900 text-white flex justify-center items-center">
-              <h1 className="text-3xl font-bold">
-                Bienvenue sur la page Home protégée !
-              </h1>
-            </div>
+            <HomePage />
           </ProtectedRoute>
         }
       />
