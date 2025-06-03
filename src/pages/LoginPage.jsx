@@ -8,7 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // ✅ Redux
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
