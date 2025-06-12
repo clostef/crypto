@@ -35,6 +35,7 @@ function LoginPage() {
         const userData = await response.json();
 
         dispatch(setUser(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
 
         navigate("/home");
       } else if (response.status === 401) {
