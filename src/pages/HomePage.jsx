@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import CryptoCard from "../components/CryptoCard";
 import WalletSummary from "../components/WalletSummary";
+import CryptoChartCard from "../components/CryptoChartCard";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -76,6 +77,10 @@ function HomePage() {
         {cryptos.map((crypto) => (
           <CryptoCard key={crypto.id} crypto={crypto} />
         ))}
+      </div>
+
+      <div className="w-full max-w-[661px] aspect-[661/398]">
+        <CryptoChartCard />
       </div>
 
       {wallet && <WalletSummary wallet={wallet} />}
