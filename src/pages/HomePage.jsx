@@ -53,7 +53,6 @@ function HomePage() {
 
   return (
     <div className="flex h-screen w-full bg-black text-white font-sans">
-      {/* Sidebar */}
       <aside className="w-[350px] bg-black flex flex-col items-center py-6 space-y-4">
         <h1 className="text-yellow-500 text-4xl font-bold tracking-wide">
           CRYPTO
@@ -61,9 +60,7 @@ function HomePage() {
         <img src={CryptoLogo} alt="Logo" className="w-[90px] h-[90px]" />
       </aside>
 
-      {/* Contenu principal */}
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
-        {/* Wrapper centré sans largeur fixe */}
         <div className="mx-auto inline-block">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-white text-3xl font-semibold">Home</h1>
