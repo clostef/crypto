@@ -53,21 +53,21 @@ function CryptoCard({ crypto }) {
   }, [crypto.symbol]);
 
   return (
-    <div className="relative bg-[#0f0f0f] rounded-2xl w-64 h-40 text-white p-4 shadow-lg overflow-hidden">
+    <div className="relative bg-[#0f0f0f] rounded-2xl w-[309px] h-[202px] text-white p-4 shadow-lg overflow-hidden">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <img
             src={crypto.icon || "/default-icon.png"}
             alt={crypto.name}
-            className="w-12 h-12 rounded-full bg-gray-800 p-1"
+            className="w-14 h-14 rounded-full bg-gray-800 p-1"
           />
           <div className="leading-tight">
-            <h2 className="text-base font-semibold">{crypto.name}</h2>
+            <h2 className="text-lg font-semibold">{crypto.name}</h2>
             <p className="text-xs text-gray-500">{crypto.symbol}</p>
           </div>
         </div>
         <div
-          className={`w-12 h-12 rounded-full flex items-center justify-center ${
+          className={`w-14 h-14 rounded-full flex items-center justify-center ${
             crypto.tendency === "up" ? "bg-green-600" : "bg-red-600"
           }`}
         >
@@ -80,12 +80,12 @@ function CryptoCard({ crypto }) {
       </div>
 
       <div className="absolute bottom-2 left-4">
-        <p className="text-lg font-bold mb-1">
+        <p className="text-xl font-bold mb-1">
           $
           {crypto.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </p>
         <p
-          className={`text-sm font-medium ${
+          className={`text-lg font-medium ${
             crypto.lastVariation >= 0 ? "text-green-500" : "text-red-500"
           }`}
         >

@@ -52,7 +52,7 @@ function HomePage() {
   return (
     <div className="h-full min-h-screen bg-gray-900 text-white px-6 py-4 flex flex-col">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-300">Home</h1>
+        <h1 className="text-3xl text-gray-300">Home</h1>
 
         <div className="flex items-center gap-4">
           <img
@@ -73,17 +73,37 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-6 mb-8">
+      {wallet?.totalBalance !== undefined && (
+        <div className="mb-8 flex items-center gap-2">
+          <span className="text-lg text-zinc-300">Total Balance :</span>
+          <span className="text-5xl font-bold text-zinc-300">
+            $
+            {wallet.totalBalance.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+          </span>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-8 mb-8">
         {cryptos.map((crypto) => (
-          <CryptoCard key={crypto.id} crypto={crypto} />
+          <div key={crypto.id} className="w-[309px] h-[202px]">
+            <CryptoCard crypto={crypto} />
+          </div>
         ))}
       </div>
 
-      <div className="w-full max-w-[661px] aspect-[661/398]">
-        <CryptoChartCard />
-      </div>
+      <div className="flex flex-col md:flex-row gap-6 mb-8">
+        {wallet && (
+          <div className="w-[309px]">
+            <WalletSummary wallet={wallet} />
+          </div>
+        )}
 
-      {wallet && <WalletSummary wallet={wallet} />}
+        <div className="max-w-[661px] w-full h-[398px]">
+          <CryptoChartCard />
+        </div>
+      </div>
     </div>
   );
 }

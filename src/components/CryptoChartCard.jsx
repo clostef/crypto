@@ -98,7 +98,7 @@ export default function CryptoChartCard() {
   };
 
   return (
-    <div className="bg-black rounded-[15px] p-4 text-white flex flex-col h-full w-full">
+    <div className="bg-black rounded-[15px] p-4 text-white shadow-lg flex flex-col w-full h-[398px]">
       <div className="flex justify-between items-start mb-2">
         <h2 className="text-[30px] font-semibold leading-[36px] tracking-[-0.0075em] w-[62px] h-[36px]">
           {crypto}
@@ -151,7 +151,7 @@ export default function CryptoChartCard() {
         ))}
       </div>
 
-      <div className="flex-1 relative">
+      <div className="relative w-full h-[250px]">
         <Line data={data} options={options} />
       </div>
     </div>
