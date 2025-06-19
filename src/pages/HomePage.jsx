@@ -7,6 +7,8 @@ import { LogOut } from "lucide-react";
 import CryptoCard from "../components/CryptoCard";
 import WalletSummary from "../components/WalletSummary";
 import CryptoChartCard from "../components/CryptoChartCard";
+import CryptoLogo from "../assets/crypto/crypto-logo.png";
+import ProfileLogo from "../assets/crypto/profile-logo.png";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -50,60 +52,72 @@ function HomePage() {
   }, [userData]);
 
   return (
-    <div className="h-full min-h-screen bg-gray-900 text-white px-6 py-4 flex flex-col">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl text-gray-300">Home</h1>
+    <div className="flex h-screen w-full bg-black text-white font-sans">
+      {/* Sidebar */}
+      <aside className="w-[350px] bg-black flex flex-col items-center py-6 space-y-4">
+        <h1 className="text-yellow-500 text-4xl font-bold tracking-wide">
+          CRYPTO
+        </h1>
+        <img src={CryptoLogo} alt="Logo" className="w-[90px] h-[90px]" />
+      </aside>
 
-        <div className="flex items-center gap-4">
-          <img
-            src={
-              userData?.profileImage ||
-              "https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Fprofile_crypto.png?alt=media"
-            }
-            alt="Profil"
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 text-sm text-gray-300 hover:underline"
-          >
-            <LogOut className="w-5 h-5" />
-            Log out
-          </button>
-        </div>
-      </div>
-
-      {wallet?.totalBalance !== undefined && (
-        <div className="mb-8 flex items-center gap-2">
-          <span className="text-lg text-zinc-300">Total Balance :</span>
-          <span className="text-5xl font-bold text-zinc-300">
-            $
-            {wallet.totalBalance.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })}
-          </span>
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-8 mb-8">
-        {cryptos.map((crypto) => (
-          <div key={crypto.id} className="w-[309px] h-[202px]">
-            <CryptoCard crypto={crypto} />
+      {/* Contenu principal */}
+      <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
+        {/* Wrapper centré sans largeur fixe */}
+        <div className="mx-auto inline-block">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-white text-3xl font-semibold">Home</h1>
+            <div className="flex items-center gap-4">
+              <img
+                src={userData?.profileImage || ProfileLogo}
+                alt="Profil"
+                className="w-[50px] h-[50px] rounded-full object-cover"
+              />
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1 text-gray-300 hover:text-gray-300 transition text-sm"
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="text-lg font-bold hover:underline">
+                  Log out
+                </span>
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
 
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        {wallet && (
-          <div className="w-[309px]">
-            <WalletSummary wallet={wallet} />
+          {wallet?.totalBalance !== undefined && (
+            <div className="mb-6 flex items-center gap-3">
+              <span className="text-lg text-gray-400">Total balance :</span>
+              <span className="text-5xl font-extrabold text-white">
+                $
+                {wallet.totalBalance.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+          )}
+
+          <div className="flex gap-6 mb-6 flex-wrap justify-center">
+            {cryptos.map((crypto) => (
+              <div
+                key={crypto.id}
+                className="flex-grow min-w-[250px] max-w-[350px]"
+              >
+                <CryptoCard crypto={crypto} />
+              </div>
+            ))}
           </div>
-        )}
 
-        <div className="max-w-[661px] w-full h-[398px]">
-          <CryptoChartCard />
+          <div className="flex gap-6 flex-wrap justify-center">
+            <div className="flex-grow min-w-[250px] max-w-[350px]">
+              <WalletSummary wallet={wallet} />
+            </div>
+            <div className="flex-grow min-w-[300px] max-w-[700px]">
+              <CryptoChartCard />
+            </div>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

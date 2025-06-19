@@ -4,7 +4,7 @@ function WalletSummary({ wallet }) {
   if (!wallet?.cryptocurrencies?.length) return null;
 
   return (
-    <div className="bg-amber-400 p-6 rounded-2xl flex flex-col shadow-lg w-[309px] h-[398px] font-sans text-black">
+    <div className="bg-amber-400 p-6 rounded-2xl flex flex-col shadow-lg w-[340px] h-[410px] font-sans text-black">
       <h2 className="text-3xl font-bold mb-3">Wallet</h2>
 
       <hr className="border-black mb-3" />
@@ -43,12 +43,14 @@ function WalletSummary({ wallet }) {
         ))}
       </div>
 
+      <hr className="border-black mb-8" />
+
       <Link
         to="/wallet"
         className="mt-auto inline-flex items-center text-black text-lg mx-auto group border-b-2 border-black gap-x-2"
       >
         <span>See all wallet</span>
-        <span className="text-2xl">→</span>
+        <span className="text-3xl">→</span>
       </Link>
     </div>
   );
