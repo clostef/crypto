@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../features/user/userSlice";
 import { useNavigate, useLocation } from "react-router-dom";
+import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
-import CryptoCard from "../components/CryptoCard";
-import WalletSummary from "../components/WalletSummary";
-import CryptoChartCard from "../components/CryptoChartCard";
+import MarketTable from "../components/MarketTable";
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
 import ProfileLogo from "../assets/crypto/profile-logo.png";
 import LayoutIcon from "../assets/icons/layout-board.svg";
@@ -15,13 +11,11 @@ import TransactionsIcon from "../assets/icons/table.svg";
 import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
 
-function HomePage() {
+function MarketPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const userData = useSelector((state) => state.user.userData);
-  const [cryptos, setCryptos] = useState([]);
-  const [wallet, setWallet] = useState(null);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -36,38 +30,8 @@ function HomePage() {
     { label: "Profile", path: "/profile", icon: ProfileIcon },
   ];
 
-  useEffect(() => {
-    const fetchCryptos = async () => {
-      try {
-        const res = await axios.get("http://localhost:3111/cryptos-cards-home");
-        setCryptos(res.data);
-      } catch (err) {
-        console.error("Erreur chargement cryptos:", err);
-      }
-    };
-
-    const fetchWallet = async () => {
-      try {
-        const res = await axios.get("http://localhost:3111/wallets", {
-          headers: {
-            Authorization: `Bearer ${userData?.token}`,
-          },
-        });
-        setWallet(res.data);
-      } catch (err) {
-        console.error("Erreur chargement wallet:", err.response || err.message);
-      }
-    };
-
-    fetchCryptos();
-    if (userData?.token) {
-      fetchWallet();
-    }
-  }, [userData]);
-
   return (
     <div className="flex h-screen w-full bg-black text-white font-sans">
-      {/* Sidebar */}
       <aside className="w-[300px] bg-black flex flex-col items-center py-6 space-y-4">
         <h1 className="text-yellow-500 text-4xl font-bold tracking-wide">
           CRYPTO
@@ -80,8 +44,7 @@ function HomePage() {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-md font-semibold text-2xl transition
-                ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-md font-semibold text-2xl transition ${
                   isActive
                     ? "bg-zinc-900 text-white"
                     : "text-zinc-500 hover:bg-gray-300 hover:bg-opacity-30 hover:text-white"
@@ -104,9 +67,9 @@ function HomePage() {
       </aside>
 
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
-        <div className="flex flex-col gap-6">
+        <div className="w-[1314px] flex flex-col gap-10">
           <div className="flex justify-between items-center">
-            <h1 className="text-white text-3xl font-semibold">Home</h1>
+            <h1 className="text-white text-3xl font-semibold">Market</h1>
             <div className="flex items-center gap-4">
               <img
                 src={userData?.profileImage || ProfileLogo}
@@ -125,35 +88,17 @@ function HomePage() {
             </div>
           </div>
 
-          {wallet?.totalBalance !== undefined && (
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-gray-400">Total balance :</span>
-              <span className="text-5xl font-extrabold text-white">
-                $
-                {wallet.totalBalance.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                })}
-              </span>
-            </div>
-          )}
+          <div className="w-full h-[674px] bg-black border border-gray-700 rounded-xl p-6 flex flex-col items-center">
+            <MarketTable token={userData?.token} />
 
-          <div className="flex gap-6 flex-wrap justify-center">
-            {cryptos.map((crypto) => (
-              <div
-                key={crypto.id}
-                className="flex-grow min-w-[250px] max-w-[450px]"
-              >
-                <CryptoCard crypto={crypto} />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex gap-6 flex-wrap justify-center">
-            <div className="flex-grow min-w-[250px] max-w-[550px]">
-              <WalletSummary wallet={wallet} />
-            </div>
-            <div className="flex-grow min-w-[300px] max-w-[1015px]">
-              <CryptoChartCard />
+            <div className="flex justify-center items-center gap-8 mt-8">
+              <button className="text-white">&lt; Previous</button>
+              <button className="bg-black text-white font-bold px-3 py-1 rounded border border-white">
+                1
+              </button>
+              <button className="text-white">2</button>
+              <button className="text-white">3</button>
+              <button className="text-white">Next &gt;</button>
             </div>
           </div>
         </div>
@@ -162,4 +107,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default MarketPage;

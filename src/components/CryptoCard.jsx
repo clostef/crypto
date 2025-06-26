@@ -53,7 +53,7 @@ function CryptoCard({ crypto }) {
   }, [crypto.symbol]);
 
   return (
-    <div className="relative bg-[#0f0f0f] rounded-2xl w-[340px] h-[222px] text-white p-4 shadow-lg overflow-hidden">
+    <div className="relative bg-[#0f0f0f] rounded-2xl w-[420px] h-[222px] text-white p-4 shadow-lg overflow-hidden">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-5">
           <img

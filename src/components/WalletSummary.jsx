@@ -4,7 +4,7 @@ function WalletSummary({ wallet }) {
   if (!wallet?.cryptocurrencies?.length) return null;
 
   return (
-    <div className="bg-amber-400 p-6 rounded-2xl flex flex-col shadow-lg w-[340px] h-[410px] font-sans text-black">
+    <div className="bg-amber-400 p-6 rounded-2xl flex flex-col shadow-lg w-[420px] h-[410px] font-sans text-black">
       <h2 className="text-3xl font-bold mb-3">Wallet</h2>
 
       <hr className="border-black mb-3" />
