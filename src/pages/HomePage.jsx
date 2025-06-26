@@ -104,7 +104,6 @@ function HomePage() {
         </nav>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
         <div className="mx-auto inline-block">
           <div className="flex justify-between items-center mb-6">
