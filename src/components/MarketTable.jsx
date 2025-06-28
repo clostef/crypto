@@ -1,62 +1,72 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function MarketTable({ token }) {
+function MarketTable({ currentPage, itemsPerPage }) {
   const [cryptos, setCryptos] = useState([]);
 
   useEffect(() => {
-    const fetchWallet = async () => {
+    const fetchMarketData = async () => {
       try {
-        const res = await axios.get("http://localhost:3111/wallets", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const rankedCryptos = res.data.cryptocurrencies.map(
-          (crypto, index) => ({
-            ...crypto,
-            rank: index + 1,
-            price: (Math.random() * 50000 + 0.1).toFixed(2),
-            percentChange1h: parseFloat((Math.random() * 10 - 5).toFixed(1)),
-            percentChange24h: parseFloat((Math.random() * 10 - 5).toFixed(1)),
-            marketCap: Math.floor(Math.random() * 1_000_000_000_000),
-          })
+        const response = await axios.get("http://localhost:3111/market");
+        const data = response.data.map((crypto, index) => ({
+          ...crypto,
+          rank: index + 1,
+          percentChange1h: crypto.priceChange.hour,
+          percentChange24h: crypto.priceChange.day,
+        }));
+        setCryptos(data);
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des données du marché:",
+          error
         );
-
-        setCryptos(rankedCryptos);
-      } catch (err) {
-        console.error("Erreur chargement portefeuille:", err);
       }
     };
 
-    if (token) fetchWallet();
-  }, [token]);
+    fetchMarketData();
+  }, []);
 
   const getColorClass = (value) =>
     value > 0 ? "text-green-500" : value < 0 ? "text-red-500" : "text-gray-400";
 
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCryptos = cryptos.slice(startIndex, startIndex + itemsPerPage);
+
   return (
-    <div className="w-[1250px] h-[520px] overflow-y-auto border border-gray-200">
+    <div className="w-[1250px] overflow-y-auto border border-gray-200">
       <table className="w-full text-white text-sm border-separate border-spacing-0">
         <thead className="bg-gray-800 text-gray-400">
           <tr>
-            <th className="p-4 border border-gray-200 text-left">#</th>
-            <th className="p-4 border border-gray-200 text-left">Name</th>
-            <th className="p-4 border border-gray-200 text-left">Price</th>
-            <th className="p-4 border border-gray-200 text-left">1h %</th>
-            <th className="p-4 border border-gray-200 text-left">24h %</th>
-            <th className="p-4 border border-gray-200 text-left">Market Cap</th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              #
+            </th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              Name
+            </th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              Price
+            </th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              1h %
+            </th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              24h %
+            </th>
+            <th className="p-6 text-base border border-gray-200 text-left">
+              Market Cap
+            </th>
           </tr>
         </thead>
         <tbody>
-          {cryptos.map((crypto, index) => (
+          {currentCryptos.map((crypto, index) => (
             <tr
               key={crypto.symbol + index}
               className={index % 2 === 0 ? "bg-gray-900" : "bg-black"}
             >
-              <td className="p-4 border border-gray-200">{crypto.rank}</td>
-              <td className="p-4 border border-gray-200">
+              <td className="p-6 text-base border border-gray-200">
+                {crypto.rank}
+              </td>
+              <td className="p-6 text-base border border-gray-200">
                 <div className="flex items-center gap-2">
                   <img
                     src={crypto.icon}
@@ -67,11 +77,11 @@ function MarketTable({ token }) {
                   <span className="text-gray-400">{crypto.symbol}</span>
                 </div>
               </td>
-              <td className="p-4 border border-gray-200">
+              <td className="p-6 text-base border border-gray-200">
                 ${parseFloat(crypto.price).toLocaleString()}
               </td>
               <td
-                className={`p-4 border border-gray-200 ${getColorClass(
+                className={`p-6 text-base border border-gray-200 ${getColorClass(
                   crypto.percentChange1h
                 )}`}
               >
@@ -79,14 +89,14 @@ function MarketTable({ token }) {
                 {crypto.percentChange1h}%
               </td>
               <td
-                className={`p-4 border border-gray-200 ${getColorClass(
+                className={`p-6 text-base border border-gray-200 ${getColorClass(
                   crypto.percentChange24h
                 )}`}
               >
                 {crypto.percentChange24h > 0 ? "+" : ""}
                 {crypto.percentChange24h}%
               </td>
-              <td className="p-4 border border-gray-200">
+              <td className="p-6 text-base border border-gray-200">
                 ${crypto.marketCap.toLocaleString("en-US")}
               </td>
             </tr>

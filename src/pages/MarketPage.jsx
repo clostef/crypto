@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
+import { useState } from "react";
 import MarketTable from "../components/MarketTable";
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
 import ProfileLogo from "../assets/crypto/profile-logo.png";
@@ -16,6 +17,9 @@ function MarketPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const userData = useSelector((state) => state.user.userData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const totalPages = 3; // à adapter si tu veux le rendre dynamique
 
   const handleLogout = () => {
     dispatch(logout());
@@ -88,17 +92,41 @@ function MarketPage() {
             </div>
           </div>
 
-          <div className="w-full h-[674px] bg-black border border-gray-700 rounded-xl p-6 flex flex-col items-center">
-            <MarketTable token={userData?.token} />
-
-            <div className="flex justify-center items-center gap-8 mt-8">
-              <button className="text-white">&lt; Previous</button>
-              <button className="bg-black text-white font-bold px-3 py-1 rounded border border-white">
-                1
+          <div className="w-full bg-black border border-gray-700 rounded-xl p-6 flex flex-col items-center">
+            <MarketTable
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+            />
+            <div className="flex justify-center items-center gap-5 mt-9 mb-8">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                className="text-white"
+              >
+                &lt; Previous
               </button>
-              <button className="text-white">2</button>
-              <button className="text-white">3</button>
-              <button className="text-white">Next &gt;</button>
+
+              {[...Array(totalPages).keys()].map((page) => (
+                <button
+                  key={page + 1}
+                  onClick={() => setCurrentPage(page + 1)}
+                  className={`px-3 py-1 rounded border font-bold transition-all duration-150 ${
+                    currentPage === page + 1
+                      ? "bg-black text-white border-white"
+                      : "text-white border-gray-600 hover:border-white"
+                  }`}
+                >
+                  {page + 1}
+                </button>
+              ))}
+
+              <button
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(p + 1, totalPages))
+                }
+                className="text-white"
+              >
+                Next &gt;
+              </button>
             </div>
           </div>
         </div>

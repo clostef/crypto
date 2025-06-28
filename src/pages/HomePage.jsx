@@ -67,7 +67,6 @@ function HomePage() {
 
   return (
     <div className="flex h-screen w-full bg-black text-white font-sans">
-      {/* Sidebar */}
       <aside className="w-[300px] bg-black flex flex-col items-center py-6 space-y-4">
         <h1 className="text-yellow-500 text-4xl font-bold tracking-wide">
           CRYPTO
