@@ -57,7 +57,11 @@ const WalletPieChart = ({ wallet }) => {
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className="bg-black p-6 rounded-xl flex flex-col gap-6 w-[420px] h-[628px] items-center">
+=======
+    <div className="bg-black p-6 rounded-2xl shadow-xl flex flex-col gap-6 w-[420px] h-[657px] items-center">
+>>>>>>> 2b709ed (feat/19-wallet-evolution-graph)
       <div className="w-full border border-white rounded-lg p-4">
         <h2 className="text-lg font-semibold mb-4">Distribution</h2>
         <div className="space-y-4 text-white">
