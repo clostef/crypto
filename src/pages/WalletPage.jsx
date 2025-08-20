@@ -1,15 +1,22 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import React from "react";
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
+=======
+>>>>>>> 63daa22 (feat/17-wallet-overview)
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
+=======
+
+>>>>>>> 63daa22 (feat/17-wallet-overview)
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
 import ProfileLogo from "../assets/crypto/profile-logo.png";
 import LayoutIcon from "../assets/icons/layout-board.svg";
@@ -17,6 +24,7 @@ import MarketIcon from "../assets/icons/trending-up.svg";
 import TransactionsIcon from "../assets/icons/table.svg";
 import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import WalletPieChart from "../components/WalletPieChart";
 import WalletLimitations from "../components/WalletLimitations";
@@ -32,6 +40,11 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 function WalletPageMock() {
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
+=======
+import WalletPieChart from "../components/WalletPieChart";
+
+function WalletPage() {
+>>>>>>> 63daa22 (feat/17-wallet-overview)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,6 +79,7 @@ function WalletPageMock() {
 =======
   };
 
+<<<<<<< HEAD
   const chartData = {
     labels: wallet.cryptocurrencies.map((c) => c.symbol),
     datasets: [
@@ -103,6 +117,8 @@ function WalletPageMock() {
   }));
 
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
+=======
+>>>>>>> 63daa22 (feat/17-wallet-overview)
   const menuItems = [
     { label: "Home", path: "/home", icon: LayoutIcon },
     { label: "Market", path: "/market", icon: MarketIcon },
@@ -211,6 +227,7 @@ function WalletPageMock() {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div className="flex gap-7 items-start">
             <WalletPieChart wallet={wallet} />
 
@@ -255,6 +272,9 @@ function WalletPageMock() {
             </div>
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
           </div>
+=======
+          <WalletPieChart wallet={wallet} />
+>>>>>>> 63daa22 (feat/17-wallet-overview)
         </div>
       </main>
     </div>
@@ -262,7 +282,11 @@ function WalletPageMock() {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default WalletPage;
 =======
 export default WalletPageMock;
 >>>>>>> 5ea2cec (feat/17-wallet-overview)
+=======
+export default WalletPage;
+>>>>>>> 63daa22 (feat/17-wallet-overview)
