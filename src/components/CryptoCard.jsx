@@ -101,13 +101,18 @@ function CryptoCard({ crypto }) {
             options={{
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { display: false } },
+              plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false },
+                datalabels: { display: false },
+              },
               scales: {
                 x: { display: false },
                 y: { display: false },
               },
               elements: {
                 line: { borderCapStyle: "round" },
+                point: { radius: 0 },
               },
             }}
           />

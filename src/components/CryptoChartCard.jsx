@@ -94,6 +94,7 @@ export default function CryptoChartCard() {
         titleColor: "#FFD700",
         bodyColor: "#fff",
       },
+      datalabels: { display: false },
     },
   };
 
