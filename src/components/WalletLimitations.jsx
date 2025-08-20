@@ -9,10 +9,10 @@ function WalletLimitations({ weekly, weeklyMax, monthly, monthlyMax }) {
     })}`;
 
   return (
-    <div className="bg-black p-5 rounded-xl text-white font-sans w-[981px] flex flex-col">
+    <div className="bg-black p-5 rounded-2xl text-white shadow-xl font-sans w-[869px] flex flex-col">
       <h2 className="text-3xl font-bold text-white">Limitations</h2>
 
-      <div className="flex-1 flex flex-col justify-center items-center gap-3 mt-2">
+      <div className="flex-1 flex flex-col justify-center items-center gap-4 mt-2">
         <div className="flex flex-col gap-2 w-full items-center">
           <div className="flex justify-between w-3/4 text-2xl text-white font-semibold">
             <span>Weekly</span>

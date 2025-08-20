@@ -12,6 +12,7 @@ import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
 import WalletPieChart from "../components/WalletPieChart";
 import WalletLimitations from "../components/WalletLimitations";
+import WalletEvolutionChart from "../components/WalletEvolutionChart";
 
 function WalletPage() {
   const dispatch = useDispatch();
@@ -62,11 +63,11 @@ function WalletPage() {
                 key={item.path}
                 onClick={() => navigate(item.path)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-md font-semibold text-2xl transition
-                ${
-                  isActive
-                    ? "bg-zinc-900 text-white"
-                    : "text-zinc-500 hover:bg-gray-300 hover:bg-opacity-30 hover:text-white"
-                }`}
+                  ${
+                    isActive
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-500 hover:bg-gray-300 hover:bg-opacity-30 hover:text-white"
+                  }`}
               >
                 <img
                   src={item.icon}
@@ -116,15 +117,19 @@ function WalletPage() {
             </span>
           </div>
 
-          <div className="flex gap-7 items-start">
+          <div className="flex gap-6 items-start">
             <WalletPieChart wallet={wallet} />
 
-            <WalletLimitations
-              weekly={wallet.weeklySpent}
-              weeklyMax={wallet.weeklyLimit}
-              monthly={wallet.monthlySpent}
-              monthlyMax={wallet.monthlyLimit}
-            />
+            <div className="flex flex-col gap-6 flex-1">
+              <WalletLimitations
+                weekly={wallet.weeklySpent}
+                weeklyMax={wallet.weeklyLimit}
+                monthly={wallet.monthlySpent}
+                monthlyMax={wallet.monthlyLimit}
+              />
+
+              <WalletEvolutionChart wallet={wallet} />
+            </div>
           </div>
         </div>
       </main>
