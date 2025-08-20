@@ -13,9 +13,9 @@ import ProfileIcon from "../assets/icons/user.svg";
 
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels"; // ✅ import plugin
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels); // ✅ activation plugin
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 function WalletPageMock() {
   const dispatch = useDispatch();
@@ -28,7 +28,6 @@ function WalletPageMock() {
     navigate("/login");
   };
 
-  // Données mock
   const wallet = {
     totalBalance: 50000,
     cryptocurrencies: [
@@ -38,7 +37,6 @@ function WalletPageMock() {
     ],
   };
 
-  // Données pour le camembert
   const chartData = {
     labels: wallet.cryptocurrencies.map((c) => c.symbol),
     datasets: [
@@ -50,12 +48,11 @@ function WalletPageMock() {
     ],
   };
 
-  // ✅ Modif ici : labels à l'intérieur du camembert
   const chartOptions = {
     responsive: true,
     plugins: {
       legend: {
-        display: false, // ❌ on enlève la légende externe
+        display: false,
       },
       datalabels: {
         color: "#fff",
@@ -64,13 +61,12 @@ function WalletPageMock() {
           size: 14,
         },
         formatter: (value, context) => {
-          return context.chart.data.labels[context.dataIndex]; // ✅ affiche BTC, ETH, BNB
+          return context.chart.data.labels[context.dataIndex];
         },
       },
     },
   };
 
-  // Calcul pourcentages
   const distributions = wallet.cryptocurrencies.map((c) => ({
     symbol: c.symbol,
     percentage: ((c.amount / wallet.totalBalance) * 100).toFixed(2),
@@ -89,7 +85,6 @@ function WalletPageMock() {
 
   return (
     <div className="flex h-screen w-full bg-black text-white font-sans">
-      {/* Sidebar */}
       <aside className="w-[300px] bg-black flex flex-col items-center py-6 space-y-4">
         <h1 className="text-yellow-500 text-4xl font-bold tracking-wide">
           CRYPTO
@@ -125,11 +120,8 @@ function WalletPageMock() {
         </nav>
       </aside>
 
-      {/* Main content avec largeur fixe et centrée comme Transactions */}
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
-        {/* Conteneur centré avec largeur fixe identique */}
         <div className="w-[1314px] flex flex-col gap-10">
-          {/* Header */}
           <div className="flex justify-between items-center">
             <h1 className="text-white text-3xl font-semibold">Wallet</h1>
             <div className="flex items-center gap-4">
@@ -150,7 +142,6 @@ function WalletPageMock() {
             </div>
           </div>
 
-          {/* Total Balance */}
           <div className="flex items-center gap-3">
             <span className="text-lg text-gray-400">Total balance :</span>
             <span className="text-5xl font-extrabold text-white">
@@ -161,9 +152,7 @@ function WalletPageMock() {
             </span>
           </div>
 
-          {/* Distribution + Pie Chart */}
           <div className="bg-black p-6 rounded-lg flex flex-col gap-6 w-[332px] h-[628px] items-center">
-            {/* Distributions list avec encadré blanc */}
             <div className="w-full border border-white rounded-lg p-4">
               <h2 className="text-xl font-semibold mb-4">Distributions</h2>
               <div className="space-y-4 text-white">
@@ -187,7 +176,6 @@ function WalletPageMock() {
               </div>
             </div>
 
-            {/* Pie Chart descendu */}
             <div className="flex justify-center items-center mt-8">
               <div className="w-64 h-64">
                 <Pie data={chartData} options={chartOptions} />
