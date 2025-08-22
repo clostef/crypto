@@ -1,9 +1,19 @@
-function WalletLimitations({ weekly, weeklyMax, monthly, monthlyMax }) {
-  const weeklyPercentage = Math.min((weekly / weeklyMax) * 100, 100);
-  const monthlyPercentage = Math.min((monthly / monthlyMax) * 100, 100);
+function WalletLimitations({
+  weekly = 0,
+  weeklyMax = 1,
+  monthly = 0,
+  monthlyMax = 1,
+}) {
+  const safePercentage = (value, max) => {
+    if (!max || max <= 0) return 0;
+    return Math.min((value / max) * 100, 100);
+  };
+
+  const weeklyPercentage = safePercentage(weekly, weeklyMax);
+  const monthlyPercentage = safePercentage(monthly, monthlyMax);
 
   const formatDollar = (value) =>
-    `$${value.toLocaleString("en-US", {
+    `$${value?.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
