@@ -4,8 +4,8 @@
       "id": 1,
       "email": "j.doe@gmail.com",
       "password": "password1",
-      "name": "Doe",
-      "firstname": "John",
+      "name": "Nadal",
+      "firstname": "Rafa",
       "profileImage": "https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Fprofile_crypto.png?alt=media",
       "token": "token1"
     },
@@ -1727,7 +1727,15 @@
       "tendency": "up",
       "lastVariation": 1.5,
       "9LastPrices": [
-        29000, 29500, 29800, 29900, 30000, 30500, 30200, 30000, 30000
+        29000,
+        29500,
+        29800,
+        29900,
+        30000,
+        30500,
+        30200,
+        30000,
+        30000
       ]
     },
     {
@@ -1738,7 +1746,17 @@
       "price": 2000,
       "tendency": "up",
       "lastVariation": 3.1,
-      "9LastPrices": [1950, 1970, 1985, 1995, 2000, 2020, 2010, 2000, 2000]
+      "9LastPrices": [
+        1950,
+        1970,
+        1985,
+        1995,
+        2000,
+        2020,
+        2010,
+        2000,
+        2000
+      ]
     },
     {
       "id": 3,
@@ -1748,7 +1766,17 @@
       "price": 300,
       "tendency": "down",
       "lastVariation": -0.1,
-      "9LastPrices": [290, 295, 298, 299, 300, 305, 302, 300, 300]
+      "9LastPrices": [
+        290,
+        295,
+        298,
+        299,
+        300,
+        305,
+        302,
+        300,
+        300
+      ]
     }
   ]
 }
