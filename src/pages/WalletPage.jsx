@@ -11,6 +11,7 @@ import TransactionsIcon from "../assets/icons/table.svg";
 import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
 import WalletPieChart from "../components/WalletPieChart";
+import WalletLimitations from "../components/WalletLimitations";
 
 function WalletPage() {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ function WalletPage() {
       { symbol: "ETH", amount: 15000 },
       { symbol: "BNB", amount: 10000 },
     ],
+    weeklySpent: 160,
+    weeklyLimit: 200,
+    monthlySpent: 2900,
+    monthlyLimit: 3000,
   };
 
   const menuItems = [
@@ -80,7 +85,7 @@ function WalletPage() {
       </aside>
 
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
-        <div className="w-[1314px] flex flex-col gap-10">
+        <div className="w-[1314px] flex flex-col gap-6">
           <div className="flex justify-between items-center">
             <h1 className="text-white text-3xl font-semibold">Wallet</h1>
             <div className="flex items-center gap-4">
@@ -111,7 +116,16 @@ function WalletPage() {
             </span>
           </div>
 
-          <WalletPieChart wallet={wallet} />
+          <div className="flex gap-7 items-start">
+            <WalletPieChart wallet={wallet} />
+
+            <WalletLimitations
+              weekly={wallet.weeklySpent}
+              weeklyMax={wallet.weeklyLimit}
+              monthly={wallet.monthlySpent}
+              monthlyMax={wallet.monthlyLimit}
+            />
+          </div>
         </div>
       </main>
     </div>
