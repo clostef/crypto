@@ -34,8 +34,11 @@ function LoginPage() {
       if (response.ok) {
         const userData = await response.json();
 
-        dispatch(setUser(userData));
-        localStorage.setItem("user", JSON.stringify(userData));
+        dispatch(setUser({ user: userData, token: userData.token }));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: userData, token: userData.token })
+        );
 
         navigate("/home");
       } else if (response.status === 401) {
@@ -80,9 +83,6 @@ function LoginPage() {
                 className="w-full p-3 rounded-lg bg-white text-black border border-gray-300"
                 placeholder="Email"
               />
-              <p className="text-sm text-gray-400 mt-1">
-                Enter your email address
-              </p>
             </div>
 
             <div>
@@ -98,7 +98,6 @@ function LoginPage() {
                 className="w-full p-3 rounded-lg bg-white text-black border border-gray-300"
                 placeholder="Password"
               />
-              <p className="text-sm text-gray-400 mt-1">Enter your password</p>
             </div>
 
             {error && (

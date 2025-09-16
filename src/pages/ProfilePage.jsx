@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { logout } from "../features/user/userSlice";
+import { useState } from "react";
+import { logout, editUser } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
 
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
@@ -17,9 +18,45 @@ function ProfilePage() {
   const location = useLocation();
   const userData = useSelector((state) => state.user.userData);
 
+  const [formData, setFormData] = useState({
+    name: userData?.name || "",
+    firstname: userData?.firstname || "",
+    email: userData?.email || "",
+  });
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
+  const handleSave = () => {
+    if (!formData.name || !formData.firstname || !formData.email) {
+      setError("All fields are required.");
+      return;
+    }
+    if (!validateEmail(formData.email)) {
+      setError("Invalid email format.");
+      return;
+    }
+    setError("");
+
+    dispatch(editUser(formData))
+      .unwrap()
+      .then(() => {
+        setSuccessMessage("Profile updated successfully!");
+        setTimeout(() => setSuccessMessage(""), 3000);
+      })
+      .catch((err) => {
+        setError(err || "Failed to update profile.");
+      });
   };
 
   const menuItems = [
@@ -105,54 +142,72 @@ function ProfilePage() {
                 See and save your profile information.
               </p>
 
-              <form className="flex flex-col gap-4 items-center">
+              <form
+                className="flex flex-col gap-4 items-center"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <div className="flex flex-col w-[250px] sm:w-[350px]">
-                  <label className="text-white mb-1 text-xs sm:text-sm">
+                  <label
+                    htmlFor="name"
+                    className="text-white mb-1 text-xs sm:text-sm"
+                  >
                     Name
                   </label>
                   <input
                     type="text"
-                    value={userData?.name || ""}
-                    disabled
+                    id="name"
+                    name="name"
+                    autoComplete="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full bg-white border border-zinc-700 rounded-md px-2 py-3 text-xs sm:text-sm text-black"
                   />
-                  <p className="text-gray-500 text-[11px] sm:text-xs mt-2">
-                    Enter your name
-                  </p>
                 </div>
 
                 <div className="flex flex-col w-[250px] sm:w-[350px]">
-                  <label className="text-white mb-1 text-xs sm:text-sm">
+                  <label
+                    htmlFor="firstname"
+                    className="text-white mb-1 text-xs sm:text-sm"
+                  >
                     Firstname
                   </label>
                   <input
                     type="text"
-                    value={userData?.firstname || ""}
-                    disabled
+                    id="firstname"
+                    name="firstname"
+                    autoComplete="given-name"
+                    value={formData.firstname}
+                    onChange={handleChange}
                     className="w-full bg-white border border-zinc-700 rounded-md px-2 py-3 text-xs sm:text-sm text-black"
                   />
-                  <p className="text-gray-500 text-[11px] sm:text-xs mt-2">
-                    Enter your firstname
-                  </p>
                 </div>
 
                 <div className="flex flex-col w-[250px] sm:w-[350px]">
-                  <label className="text-white mb-1 text-xs sm:text-sm">
+                  <label
+                    htmlFor="email"
+                    className="text-white mb-1 text-xs sm:text-sm"
+                  >
                     Email
                   </label>
                   <input
                     type="email"
-                    value={userData?.email || ""}
-                    disabled
+                    id="email"
+                    name="email"
+                    autoComplete="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full bg-white border border-zinc-700 rounded-md px-2 py-3 text-xs sm:text-sm text-black"
                   />
-                  <p className="text-gray-500 text-[11px] sm:text-xs mt-2">
-                    Enter your email
-                  </p>
                 </div>
+
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {successMessage && (
+                  <p className="text-green-500 text-sm">{successMessage}</p>
+                )}
 
                 <button
                   type="button"
+                  onClick={handleSave}
                   className="w-[250px] sm:w-[350px] bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition mt-5"
                 >
                   Save
