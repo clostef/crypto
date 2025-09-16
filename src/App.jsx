@@ -10,6 +10,7 @@ import HomePage from "./pages/HomePage";
 import MarketPage from "./pages/MarketPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import WalletPage from "./pages/WalletPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,15 @@ function App() {
         element={
           <ProtectedRoute>
             <WalletPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />
