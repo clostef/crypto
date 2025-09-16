@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
 
@@ -12,6 +13,8 @@ import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
 import WalletPieChart from "../components/WalletPieChart";
 import WalletLimitations from "../components/WalletLimitations";
+import WalletEvolutionChart from "../components/WalletEvolutionChart";
+import TotalBalanceWallet from "../components/TotalBalanceWallet";
 
 function WalletPage() {
   const dispatch = useDispatch();
@@ -19,23 +22,34 @@ function WalletPage() {
   const location = useLocation();
   const userData = useSelector((state) => state.user.userData);
 
+  const [wallet, setWallet] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
 
-  const wallet = {
-    totalBalance: 50000,
-    cryptocurrencies: [
-      { symbol: "BTC", amount: 25000 },
-      { symbol: "ETH", amount: 15000 },
-      { symbol: "BNB", amount: 10000 },
-    ],
-    weeklySpent: 160,
-    weeklyLimit: 200,
-    monthlySpent: 2900,
-    monthlyLimit: 3000,
-  };
+  useEffect(() => {
+    fetch("http://localhost:3111/wallets", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer token1",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur API");
+        return res.json();
+      })
+      .then((data) => {
+        setWallet(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Erreur fetch wallets:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const menuItems = [
     { label: "Home", path: "/home", icon: LayoutIcon },
@@ -46,6 +60,22 @@ function WalletPage() {
   ];
 
   const locationPath = location.pathname;
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-black text-white">
+        Chargement...
+      </div>
+    );
+  }
+
+  if (!wallet) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-black text-red-500">
+        Impossible de charger le wallet
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen w-full bg-black text-white font-sans">
@@ -62,11 +92,11 @@ function WalletPage() {
                 key={item.path}
                 onClick={() => navigate(item.path)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-md font-semibold text-2xl transition
-                ${
-                  isActive
-                    ? "bg-zinc-900 text-white"
-                    : "text-zinc-500 hover:bg-gray-300 hover:bg-opacity-30 hover:text-white"
-                }`}
+                  ${
+                    isActive
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-500 hover:bg-gray-300 hover:bg-opacity-30 hover:text-white"
+                  }`}
               >
                 <img
                   src={item.icon}
@@ -106,25 +136,21 @@ function WalletPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-lg text-gray-400">Total balance :</span>
-            <span className="text-5xl font-extrabold text-white">
-              $
-              {wallet.totalBalance.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}
-            </span>
-          </div>
+          <TotalBalanceWallet totalBalance={wallet.totalBalance} />
 
-          <div className="flex gap-7 items-start">
+          <div className="flex gap-6 items-start">
             <WalletPieChart wallet={wallet} />
 
-            <WalletLimitations
-              weekly={wallet.weeklySpent}
-              weeklyMax={wallet.weeklyLimit}
-              monthly={wallet.monthlySpent}
-              monthlyMax={wallet.monthlyLimit}
-            />
+            <div className="flex flex-col gap-6 flex-1">
+              <WalletLimitations
+                weekly={wallet.limitations.weekly.current}
+                weeklyMax={wallet.limitations.weekly.limit}
+                monthly={wallet.limitations.monthly.current}
+                monthlyMax={wallet.limitations.monthly.limit}
+              />
+
+              <WalletEvolutionChart wallet={wallet} />
+            </div>
           </div>
         </div>
       </main>

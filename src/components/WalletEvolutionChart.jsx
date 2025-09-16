@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -27,27 +27,21 @@ const periods = [
   { label: "All", value: "all" },
 ];
 
-const mockData = [
-  { date: "2025-08-16", totalValue: 48000 },
-  { date: "2025-08-17", totalValue: 49000 },
-  { date: "2025-08-18", totalValue: 50000 },
-  { date: "2025-08-19", totalValue: 51000 },
-  { date: "2025-08-20", totalValue: 50000 },
-];
-
 export default function WalletEvolutionChart({ wallet }) {
   const [period, setPeriod] = useState("1day");
-  const [chartData, setChartData] = useState(mockData);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    // API à remplacer plus tard
-    /*
-    fetch(`http://localhost:3111/wallet-evolution/${period}`)
-      .then((res) => res.json())
-      .then((data) => setChartData(data))
-      .catch(() => setChartData(mockData));
-    */
-  }, [period]);
+    if (!wallet || !wallet.evolutions) return;
+
+    const dataForPeriod =
+      wallet.evolutions[period]?.map((d) => ({
+        date: d.date,
+        totalValue: d.amount,
+      })) || [];
+
+    setChartData(dataForPeriod);
+  }, [wallet, period]);
 
   const data = {
     labels: chartData.map((d) => d.date),
@@ -69,7 +63,21 @@ export default function WalletEvolutionChart({ wallet }) {
     maintainAspectRatio: false,
     scales: {
       x: {
-        ticks: { color: "#FFFFFF", autoSkip: false },
+        ticks: {
+          color: "#FFFFFF",
+          autoSkip: false,
+          callback: function (value, index) {
+            const label = chartData[index]?.date;
+            if (!label) return "";
+            if (period === "1day") {
+              const dateObj = new Date(label);
+              const hours = dateObj.getHours().toString().padStart(2, "0");
+              const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+              return `${hours}:${minutes}`;
+            }
+            return label;
+          },
+        },
         grid: { color: "rgba(255,255,255,0.1)" },
       },
       y: {
@@ -86,9 +94,7 @@ export default function WalletEvolutionChart({ wallet }) {
         titleColor: "#FFD700",
         bodyColor: "#fff",
       },
-      datalabels: {
-        display: false,
-      },
+      datalabels: { display: false },
     },
   };
 
