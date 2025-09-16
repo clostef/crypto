@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
-import MarketTable from "../components/MarketTable";
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
 import ProfileLogo from "../assets/crypto/profile-logo.png";
 import LayoutIcon from "../assets/icons/layout-board.svg";
@@ -11,8 +10,9 @@ import MarketIcon from "../assets/icons/trending-up.svg";
 import TransactionsIcon from "../assets/icons/table.svg";
 import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
+import TransactionTable from "../components/TransactionTable";
 
-function MarketPage() {
+function TransactionsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -73,7 +73,7 @@ function MarketPage() {
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
         <div className="w-[1314px] flex flex-col gap-10">
           <div className="flex justify-between items-center">
-            <h1 className="text-white text-3xl font-semibold">Market</h1>
+            <h1 className="text-white text-3xl font-semibold">Transactions</h1>
             <div className="flex items-center gap-4">
               <img
                 src={userData?.profileImage || ProfileLogo}
@@ -93,7 +93,7 @@ function MarketPage() {
           </div>
 
           <div className="w-full bg-black border border-gray-700 rounded-xl p-6 flex flex-col items-center shadow-2xl">
-            <MarketTable
+            <TransactionTable
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
             />
@@ -135,4 +135,4 @@ function MarketPage() {
   );
 }
 
-export default MarketPage;
+export default TransactionsPage;

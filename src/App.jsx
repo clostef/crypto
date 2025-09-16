@@ -8,6 +8,7 @@ import Unauthorized from "./pages/Unauthorized";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import MarketPage from "./pages/MarketPage";
+import TransactionsPage from "./pages/TransactionsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,15 @@ function App() {
         element={
           <ProtectedRoute>
             <MarketPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/transactions"
+        element={
+          <ProtectedRoute>
+            <TransactionsPage />
           </ProtectedRoute>
         }
       />
