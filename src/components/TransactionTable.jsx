@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 function TransactionTable({ currentPage, itemsPerPage }) {
   const [transactions, setTransactions] = useState([]);
+  const [sortField, setSortField] = useState("date");
+  const [sortOrder, setSortOrder] = useState("desc");
   const userData = useSelector((state) => state.user.userData);
 
   useEffect(() => {
@@ -22,29 +24,67 @@ function TransactionTable({ currentPage, itemsPerPage }) {
     }
   }, [userData]);
 
-  const totalPages = Math.ceil(transactions.length / itemsPerPage);
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const sortedTransactions = [...transactions].sort((a, b) => {
+    let valA = a[sortField];
+    let valB = b[sortField];
+
+    if (sortField === "date") {
+      valA = new Date(valA).getTime();
+      valB = new Date(valB).getTime();
+    }
+
+    if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+    if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const totalPages = Math.ceil(sortedTransactions.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
-  const currentTransactions = transactions.slice(
+  const currentTransactions = sortedTransactions.slice(
     startIdx,
     startIdx + itemsPerPage
   );
 
+  const sortIcon = (field) =>
+    sortField === field ? (sortOrder === "asc" ? "⬆️" : "⬇️") : "";
+
   return (
-    <div className="w-[1250px] overflow-y-auto border border-gray-200">
+    <div className="w-[1250px] overflow-y-auto border border-gray-200 shadow-lg">
       <table className="w-full text-white text-sm border-separate border-spacing-0">
         <thead className="bg-gray-800 text-gray-400">
           <tr>
-            <th className="p-6 text-base border border-gray-200 text-left">
-              Name
+            <th
+              className="p-6 text-base border border-gray-200 text-left cursor-pointer select-none"
+              onClick={() => handleSort("name")}
+            >
+              Name {sortIcon("name")}
             </th>
-            <th className="p-6 text-base border border-gray-200 text-left">
-              Date/Time
+            <th
+              className="p-6 text-base border border-gray-200 text-left cursor-pointer select-none"
+              onClick={() => handleSort("date")}
+            >
+              Date/Time {sortIcon("date")}
             </th>
-            <th className="p-6 text-base border border-gray-200 text-right">
-              Amount
+            <th
+              className="p-6 text-base border border-gray-200 text-right cursor-pointer select-none"
+              onClick={() => handleSort("amount")}
+            >
+              Amount {sortIcon("amount")}
             </th>
-            <th className="p-6 text-base border border-gray-200 text-right">
-              Fee
+            <th
+              className="p-6 text-base border border-gray-200 text-right cursor-pointer select-none"
+              onClick={() => handleSort("fee")}
+            >
+              Fee {sortIcon("fee")}
             </th>
           </tr>
         </thead>
