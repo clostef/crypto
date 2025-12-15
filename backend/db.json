@@ -4,8 +4,8 @@
       "id": 1,
       "email": "j.doe@gmail.com",
       "password": "password1",
-      "name": "Nadal",
-      "firstname": "Rafa",
+      "name": "Federer",
+      "firstname": "Roger",
       "profileImage": "https://firebasestorage.googleapis.com/v0/b/code-up-31d9f.appspot.com/o/pro-projects-ressources%2Fcrypto%2Fprofile_crypto.png?alt=media",
       "token": "token1"
     },
