@@ -8,7 +8,7 @@ const middlewares = jsonServer.defaults();
 
 const PORT = process.env.PORT || 3111;
 
-const dbPath = path.join(process.cwd(), "backend/db.json");
+const dbPath = path.join(process.cwd(), "db.json");
 
 const router = jsonServer.router(dbPath);
 
