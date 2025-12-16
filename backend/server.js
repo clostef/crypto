@@ -1,6 +1,8 @@
 import jsonServer from "json-server";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import { checkToken } from "./check-token.js";
 
 const server = jsonServer.create();
@@ -8,7 +10,10 @@ const middlewares = jsonServer.defaults();
 
 const PORT = process.env.PORT || 3111;
 
-const dbPath = path.join(process.cwd(), "db.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const dbPath = path.join(__dirname, "db.json");
 
 const router = jsonServer.router(dbPath);
 
@@ -44,7 +49,7 @@ server.use((req, res, next) => {
 });
 
 server.post("/login", (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
 
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
@@ -115,4 +120,5 @@ server.use(router);
 
 server.listen(PORT, () => {
   console.log(`🚀 JSON Server running on port ${PORT}`);
+  console.log(`📁 db.json utilisé : ${dbPath}`);
 });
