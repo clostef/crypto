@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../api";
 
 function MarketTable({ currentPage, itemsPerPage }) {
   const [cryptos, setCryptos] = useState([]);
@@ -7,7 +8,7 @@ function MarketTable({ currentPage, itemsPerPage }) {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const response = await axios.get("http://localhost:3111/market");
+        const response = await axios.get(`${API}/market`);
         const data = response.data.map((crypto, index) => ({
           ...crypto,
           rank: index + 1,

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { logout, editUser } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
 
@@ -19,12 +19,23 @@ function ProfilePage() {
   const userData = useSelector((state) => state.user.userData);
 
   const [formData, setFormData] = useState({
-    name: userData?.name || "",
-    firstname: userData?.firstname || "",
-    email: userData?.email || "",
+    name: "",
+    firstname: "",
+    email: "",
   });
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        name: userData.name,
+        firstname: userData.firstname,
+        email: userData.email,
+      });
+    }
+  }, [userData]);
 
   const handleLogout = () => {
     dispatch(logout());

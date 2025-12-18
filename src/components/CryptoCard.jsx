@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import arrowUp from "../assets/crypto/arrow-up.png";
 import arrowDown from "../assets/crypto/arrow-down.png";
+import { API } from "../api";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -19,9 +20,7 @@ function CryptoCard({ crypto }) {
   useEffect(() => {
     const fetchChart = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3111/charts/${crypto.symbol}/all`
-        );
+        const res = await axios.get(`${API}/charts/${crypto.symbol}/all`);
         const prices = res.data.map((point) => point.price);
         const dates = res.data.map((point) => point.date);
 

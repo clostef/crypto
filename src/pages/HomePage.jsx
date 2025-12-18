@@ -14,6 +14,7 @@ import MarketIcon from "../assets/icons/trending-up.svg";
 import TransactionsIcon from "../assets/icons/table.svg";
 import WalletIcon from "../assets/icons/wallet.svg";
 import ProfileIcon from "../assets/icons/user.svg";
+import { API } from "../api";
 
 function HomePage() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function HomePage() {
   useEffect(() => {
     const fetchCryptos = async () => {
       try {
-        const res = await axios.get("http://localhost:3111/cryptos-cards-home");
+        const res = await axios.get(`${API}/cryptos-cards-home`);
         setCryptos(res.data);
       } catch (err) {
         console.error("Erreur chargement cryptos:", err);
@@ -48,7 +49,7 @@ function HomePage() {
 
     const fetchWallet = async () => {
       try {
-        const res = await axios.get("http://localhost:3111/wallets", {
+        const res = await axios.get(`${API}/wallets`, {
           headers: {
             Authorization: `Bearer ${userData?.token}`,
           },

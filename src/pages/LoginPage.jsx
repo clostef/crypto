@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
+import { API } from "../api";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ function LoginPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:3111/login", {
+      const response = await fetch(`${API}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

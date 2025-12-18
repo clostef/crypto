@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { logout } from "../features/user/userSlice";
 import { LogOut } from "lucide-react";
+import { API } from "../api";
 
 import CryptoLogo from "../assets/crypto/crypto-logo.png";
 import ProfileLogo from "../assets/crypto/profile-logo.png";
@@ -31,10 +32,12 @@ function WalletPage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3111/wallets", {
+    if (!userData?.token) return;
+
+    fetch(`${API}/wallets`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer token1",
+        Authorization: `Bearer ${userData.token}`,
       },
     })
       .then((res) => {
@@ -49,7 +52,7 @@ function WalletPage() {
         console.error("Erreur fetch wallets:", err);
         setLoading(false);
       });
-  }, []);
+  }, [userData]);
 
   const menuItems = [
     { label: "Home", path: "/home", icon: LayoutIcon },

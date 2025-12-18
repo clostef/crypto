@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { API } from "../api";
 
 function TransactionTable({ currentPage, itemsPerPage }) {
   const [transactions, setTransactions] = useState([]);
@@ -11,7 +12,7 @@ function TransactionTable({ currentPage, itemsPerPage }) {
   useEffect(() => {
     async function fetchTransactions() {
       try {
-        const res = await axios.get("http://localhost:3111/transactions", {
+        const res = await axios.get(`${API}/transactions`, {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
         setTransactions(res.data);

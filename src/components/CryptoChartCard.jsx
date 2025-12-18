@@ -9,6 +9,7 @@ import {
   Tooltip,
   Filler,
 } from "chart.js";
+import { API } from "../api";
 
 ChartJS.register(
   LineElement,
@@ -33,7 +34,7 @@ export default function CryptoChartCard() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3111/charts/${crypto}/${period}`)
+    fetch(`${API}/charts/${crypto}/${period}`)
       .then((res) => res.json())
       .then((data) => setChartData(data))
       .catch((err) => console.error(err));

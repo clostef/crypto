@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { API } from "../../api";
 
 export const editUser = createAsyncThunk(
   "user/editUser",
@@ -7,7 +8,7 @@ export const editUser = createAsyncThunk(
       const state = getState();
       const token = state.user.token;
 
-      const response = await fetch("http://localhost:3111/edit-user", {
+      const response = await fetch(`${API}/edit-user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +22,9 @@ export const editUser = createAsyncThunk(
         return rejectWithValue(errorData.message || "Failed to edit user");
       }
 
-      return await response.json();
+      const data = await response.json();
+
+      return { ...userData, ...data };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -40,6 +43,10 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.userData = action.payload.user;
       state.token = action.payload.token;
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ user: state.userData, token: state.token })
+      );
     },
     logout(state) {
       state.userData = null;
@@ -49,10 +56,10 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(editUser.fulfilled, (state, action) => {
-      state.userData = action.payload;
+      state.userData = { ...state.userData, ...action.payload };
       localStorage.setItem(
         "user",
-        JSON.stringify({ user: action.payload, token: state.token })
+        JSON.stringify({ user: state.userData, token: state.token })
       );
     });
   },
