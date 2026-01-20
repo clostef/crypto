@@ -119,7 +119,7 @@ function ProfilePage() {
 
       <main className="flex-1 bg-gray-900 rounded-xl m-4 ml-2 p-6 overflow-y-auto flex flex-col items-center">
         <div className="w-full flex flex-col gap-6 items-center">
-          <div className="w-full flex justify-between items-center max-w-[1314px]">
+          <div className="w-full flex justify-between items-center max-w-[1400px]">
             <h1 className="text-white text-3xl font-semibold">Profile</h1>
             <div className="flex items-center gap-4">
               <img

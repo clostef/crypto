@@ -17,7 +17,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Tooltip,
-  Filler
+  Filler,
 );
 
 const periods = [
@@ -36,7 +36,12 @@ export default function CryptoChartCard() {
   useEffect(() => {
     fetch(`${API}/charts/${crypto}/${period}`)
       .then((res) => res.json())
-      .then((data) => setChartData(data))
+      .then((data) => {
+        const sortedData = data.sort(
+          (a, b) => new Date(a.date) - new Date(b.date),
+        );
+        setChartData(sortedData);
+      })
       .catch((err) => console.error(err));
   }, [crypto, period]);
 
@@ -47,6 +52,8 @@ export default function CryptoChartCard() {
         hour: "2-digit",
         minute: "2-digit",
       });
+    } else if (period === "all") {
+      return date.getFullYear();
     } else {
       return date.toLocaleDateString("fr-FR", {
         day: "2-digit",
@@ -77,7 +84,8 @@ export default function CryptoChartCard() {
       x: {
         ticks: {
           color: "#FFFFFF",
-          autoSkip: false,
+          autoSkip: true,
+          maxTicksLimit: window.innerWidth < 768 ? 6 : 12,
         },
         grid: { color: "rgba(255,255,255,0.1)" },
       },
@@ -100,15 +108,15 @@ export default function CryptoChartCard() {
   };
 
   return (
-    <div className="bg-black rounded-[15px] p-4 text-white shadow-lg flex flex-col w-[870px] h-[410px]">
-      <div className="flex justify-between items-start mb-2">
-        <h2 className="text-[30px] font-semibold leading-[36px] tracking-[-0.0075em] w-[62px] h-[36px]">
+    <div className="bg-black rounded-[15px] p-3 lg:p-4 text-white shadow-xl flex flex-col w-full max-w-full lg:w-[890px] h-[350px] lg:h-[410px]">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
+        <h2 className="text-2xl lg:text-[30px] font-semibold lg:leading-[36px] lg:tracking-[-0.0075em]">
           {crypto}
         </h2>
 
-        <div className="relative w-[122px]">
+        <div className="relative w-full sm:w-[122px]">
           <select
-            className="appearance-none w-full h-[40px] rounded-[6px] border border-[#CBD5E1] bg-black text-white px-[12px] pr-[36px] py-[8px]"
+            className="appearance-none w-full h-[36px] lg:h-[40px] rounded-[6px] border border-[#CBD5E1] bg-black text-white px-[12px] pr-[36px] py-[8px] text-sm lg:text-base"
             value={crypto}
             onChange={(e) => setCrypto(e.target.value)}
           >
@@ -137,12 +145,12 @@ export default function CryptoChartCard() {
 
       <div className="w-full h-px bg-[#94A3B8] mb-2" />
 
-      <div className="flex gap-2 w-[220px] self-end h-[40px] bg-black rounded-[6px] border border-[#94A3B8] p-[4px_5px_4px_5px] mb-4">
+      <div className="flex gap-1 lg:gap-2 w-full sm:w-[220px] sm:self-end h-[36px] lg:h-[40px] bg-black rounded-[6px] border border-[#94A3B8] p-[4px_5px_4px_5px] mb-3 lg:mb-4">
         {periods.map((p) => (
           <button
             key={p.value}
             onClick={() => setPeriod(p.value)}
-            className={`flex-1 text-center rounded-[6px] text-sm leading-[32px] ${
+            className={`flex-1 text-center rounded-[6px] text-xs lg:text-sm lg:leading-[32px] ${
               period === p.value
                 ? "bg-gray-400 text-white"
                 : "bg-transparent text-white"
@@ -153,7 +161,7 @@ export default function CryptoChartCard() {
         ))}
       </div>
 
-      <div className="relative w-full h-[250px]">
+      <div className="relative w-full flex-1 min-h-[200px] lg:h-[250px]">
         <Line data={data} options={options} />
       </div>
     </div>
