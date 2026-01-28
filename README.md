@@ -1,4 +1,5 @@
 Application web front-end développée en React permettant de suivre l’évolution des cryptomonnaies, visualiser des graphiques dynamiques et consulter un résumé de portefeuille utilisateur.
+
 Fonctionnalités : 
 -Authentification utilisateur
 -Affichage de cards de cryptomonnaies dynamiques
@@ -15,6 +16,7 @@ Front-end:
 - Tailwind / bootstrap
 - API REST
 - Chart.js
+  
 Back-end:
 - Node.js
 
