@@ -101,7 +101,7 @@ function HomePage() {
               <Menu className="w-7 h-7 text-white" />
             </button>
             <h1 className="text-yellow-500 text-xl font-bold tracking-wide">
-              Crypto
+              Home
             </h1>
             <img
               src={userData?.profileImage || ProfileLogo}

@@ -19,41 +19,50 @@ function WalletLimitations({
     })}`;
 
   return (
-    <div className="bg-black p-5 rounded-2xl text-white shadow-xl font-sans w-[869px] flex flex-col">
-      <h2 className="text-3xl font-bold text-white">Limitations</h2>
+    <div
+      className="
+        bg-black p-4 md:p-5 rounded-2xl text-white shadow-xl font-sans flex flex-col
+        w-full max-w-full md:w-[925px]
+      "
+    >
+      <h2 className="text-xl md:text-3xl font-bold text-white">Limitations</h2>
 
       <div className="flex-1 flex flex-col justify-center items-center gap-4 mt-2">
         <div className="flex flex-col gap-2 w-full items-center">
-          <div className="flex justify-between w-3/4 text-2xl text-white font-semibold">
+          <div className="flex justify-between w-full md:w-3/4 text-base md:text-2xl text-white font-semibold">
             <span>Weekly</span>
             <span>{formatDollar(weekly)}</span>
           </div>
-          <div className="flex items-center w-3/4">
+
+          <div className="flex items-center w-full md:w-3/4">
             <div className="relative flex-1 h-3 bg-white rounded-full overflow-hidden">
               <div
                 className="absolute h-3 bg-gray-800 rounded-full transition-all duration-300"
                 style={{ width: `${weeklyPercentage}%` }}
               />
             </div>
-            <span className="ml-3 text-sm text-gray-400">
+
+            <span className="ml-3 text-xs md:text-sm text-gray-400">
               Max: {formatDollar(weeklyMax)}
             </span>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 w-full items-center">
-          <div className="flex justify-between w-3/4 text-2xl text-white font-semibold">
+          <div className="flex justify-between w-full md:w-3/4 text-base md:text-2xl text-white font-semibold">
             <span>Monthly</span>
             <span>{formatDollar(monthly)}</span>
           </div>
-          <div className="flex items-center w-3/4">
+
+          <div className="flex items-center w-full md:w-3/4">
             <div className="relative flex-1 h-3 bg-white rounded-full overflow-hidden">
               <div
                 className="absolute h-3 bg-gray-800 rounded-full transition-all duration-300"
                 style={{ width: `${monthlyPercentage}%` }}
               />
             </div>
-            <span className="ml-3 text-sm text-gray-400">
+
+            <span className="ml-3 text-xs md:text-sm text-gray-400">
               Max: {formatDollar(monthlyMax)}
             </span>
           </div>

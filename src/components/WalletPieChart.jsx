@@ -41,24 +41,33 @@ const WalletPieChart = ({ wallet }) => {
   };
 
   return (
-    <div className="bg-black p-6 rounded-2xl shadow-xl flex flex-col gap-6 w-[420px] h-[657px] items-center">
-      <div className="w-full border border-white rounded-lg p-4">
+    <div
+      className="
+        bg-black p-4 md:p-6 rounded-2xl shadow-xl flex flex-col gap-6 items-center
+        w-full max-w-full md:w-[420px]
+        h-auto md:h-[657px]
+      "
+    >
+      <div className="w-full border border-white rounded-lg p-3 md:p-4">
         <h2 className="text-lg font-semibold mb-4">Distribution</h2>
+
         <div className="space-y-4 text-white">
           {distributions.map(
             ({ symbol, percentage, amountInDollars, color }) => (
               <div
                 key={symbol}
-                className="flex items-center justify-between border-b border-gray-700 pb-2"
+                className="flex items-center justify-between border-b border-gray-700 pb-2 text-sm md:text-base"
               >
                 <div className="flex items-center gap-2">
                   <span
                     className="inline-block w-4 h-4 rounded-full"
                     style={{ backgroundColor: color }}
-                  ></span>
+                  />
                   <span>{symbol}</span>
                 </div>
+
                 <span>{percentage}%</span>
+
                 <span>
                   $
                   {amountInDollars.toLocaleString(undefined, {
@@ -66,13 +75,13 @@ const WalletPieChart = ({ wallet }) => {
                   })}
                 </span>
               </div>
-            )
+            ),
           )}
         </div>
       </div>
 
-      <div className="flex justify-center items-center mt-8">
-        <div className="w-75 h-75">
+      <div className="flex justify-center items-center mt-4 md:mt-8 w-full">
+        <div className="w-[220px] h-[220px] md:w-75 md:h-75">
           <Pie data={chartData} options={chartOptions} />
         </div>
       </div>
